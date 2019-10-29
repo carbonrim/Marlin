@@ -129,7 +129,7 @@
 
 // Optional custom name for your RepStrap or other custom machine
 // Displayed in the LCD "Ready" message
-#define CUSTOM_MACHINE_NAME "Mini Kossel Irek"
+#define CUSTOM_MACHINE_NAME "Kosselmini IRQ"
 
 // Define this to set a unique identifier for this printer, (Used by some programs to differentiate between machines)
 // You can use an online service to generate a random UUID. (eg http://www.uuidgenerator.net/version4)
@@ -513,7 +513,7 @@
   // Delta calibration menu
   // uncomment to add three points calibration menu option.
   // See http://minow.blogspot.com/index.html#4918805519571907051
-  //#define DELTA_CALIBRATION_MENU
+  #define DELTA_CALIBRATION_MENU //Irek: check this out
 
   // uncomment to add G33 Delta Auto-Calibration (Enable EEPROM_SETTINGS to store results)
   //#define DELTA_AUTO_CALIBRATION
@@ -539,7 +539,7 @@
   #define DELTA_DIAGONAL_ROD 214 // mm //Irek: length of the carbon arm from one screw hole to another
 
   // height from z=0 to home position
-  #define DELTA_HEIGHT 214.00 // get this value from auto calibrate //Irek
+  #define DELTA_HEIGHT 215.30 // get this value from auto calibrate //Irek: measured 214, but read by going down -1.9mm
 
   #define DELTA_ENDSTOP_ADJ { 0.0, 0.0, 0.0 } // get these from auto calibrate
 
@@ -668,11 +668,11 @@
  * Override with M92
  *                                      X, Y, Z, E0 [, E1[, E2[, E3[, E4]]]]
  */
-// variables to calculate steps
+// variables to calculate steps //Irek check all this section
 #define XYZ_FULL_STEPS_PER_ROTATION 200
 #define XYZ_MICROSTEPS 16
 #define XYZ_BELT_PITCH 2
-#define XYZ_PULLEY_TEETH 20
+#define XYZ_PULLEY_TEETH 16 //Irek: originally there was 20
 
 // delta speeds must be the same on xyz
 #define DEFAULT_XYZ_STEPS_PER_UNIT ((XYZ_FULL_STEPS_PER_ROTATION) * (XYZ_MICROSTEPS) / double(XYZ_BELT_PITCH) / double(XYZ_PULLEY_TEETH))
@@ -691,7 +691,7 @@
  * Override with M201
  *                                      X, Y, Z, E0 [, E1[, E2[, E3[, E4]]]]
  */
-#define DEFAULT_MAX_ACCELERATION      { 9000, 9000, 9000, 10000 }
+#define DEFAULT_MAX_ACCELERATION      { 500, 500, 500, 500 } //Irek
 
 /**
  * Default Acceleration (change/s) change = mm/s
@@ -701,9 +701,9 @@
  *   M204 R    Retract Acceleration
  *   M204 T    Travel Acceleration
  */
-#define DEFAULT_ACCELERATION          3000    // X, Y, Z and E acceleration for printing moves
-#define DEFAULT_RETRACT_ACCELERATION  3000    // E acceleration for retracts
-#define DEFAULT_TRAVEL_ACCELERATION   3000    // X, Y, Z acceleration for travel (non printing) moves
+#define DEFAULT_ACCELERATION          900    // X, Y, Z and E acceleration for printing moves
+#define DEFAULT_RETRACT_ACCELERATION  1500    // E acceleration for retracts
+#define DEFAULT_TRAVEL_ACCELERATION   1000    // X, Y, Z acceleration for travel (non printing) moves
 
 /**
  * Default Jerk (mm/s)
@@ -742,7 +742,7 @@
  *
  * Enable this option for a probe connected to the Z Min endstop pin.
  */
-#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
+//#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN //Irek
 
 /**
  * Z_MIN_PROBE_ENDSTOP
@@ -867,7 +867,7 @@
  * Allen key retractable z-probe as seen on many Kossel delta printers - http://reprap.org/wiki/Kossel#Automatic_bed_leveling_probe
  * Deploys by touching z-axis belt. Retracts by pushing the probe down. Uses Z_MIN_PIN.
  */
-#define Z_PROBE_ALLEN_KEY
+//#define Z_PROBE_ALLEN_KEY //Irek: commented
 
 #if ENABLED(Z_PROBE_ALLEN_KEY)
   // 2 or 3 sets of coordinates for deploying and retracting the spring loaded touch probe on G29,
@@ -963,9 +963,9 @@
 // @section machine
 
 // Invert the stepper direction. Change (or reverse the motor connector) if an axis goes the wrong way.
-#define INVERT_X_DIR false // DELTA does not invert //Irek: there's no need to invert to true if TMC2208_standalone was choosen as stepper type.
-#define INVERT_Y_DIR false // Irek: the same as above
-#define INVERT_Z_DIR false // Irek: the same
+#define INVERT_X_DIR true // DELTA does not invert //Irek: probably there's no need to invert to true if TMC2208_standalone was choosen as stepper type.
+#define INVERT_Y_DIR true // Irek: the same as above
+#define INVERT_Z_DIR true // Irek: the same
 
 // @section extruder
 
@@ -1090,9 +1090,9 @@
  */
 //#define AUTO_BED_LEVELING_3POINT
 //#define AUTO_BED_LEVELING_LINEAR
-//#define AUTO_BED_LEVELING_BILINEAR
-//#define AUTO_BED_LEVELING_UBL
-#define MESH_BED_LEVELING //Irek
+#define AUTO_BED_LEVELING_BILINEAR //Irek
+//#define AUTO_BED_LEVELING_UBL //Irek this is recommended for deltas
+//#define MESH_BED_LEVELING //Irek: commented because it's not compatible with deltas
 
 /**
  * Normally G28 leaves leveling disabled on completion. Enable
@@ -1136,7 +1136,7 @@
 
   // Set the number of grid points per dimension.
   // Works best with 5 or more points in each dimension.
-  #define GRID_MAX_POINTS_X 9
+  #define GRID_MAX_POINTS_X 3 //Irek
   #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
   // Set the boundaries for probing (where the probe can reach).
@@ -1266,7 +1266,7 @@
 #endif
 
 // Delta only homes to Z
-#define HOMING_FEEDRATE_Z  (200*60)
+#define HOMING_FEEDRATE_Z  (70*60) //Irek: was 200*50
 
 // @section calibrate
 
@@ -1339,7 +1339,7 @@
 // M501 - reads parameters from EEPROM (if you need reset them after you changed them temporarily).
 // M502 - reverts to the default "factory settings".  You still need to store them in EEPROM afterwards if you want to.
 //
-//#define EEPROM_SETTINGS // Enable for M500 and M501 commands
+#define EEPROM_SETTINGS // Enable for M500 and M501 commands //Irek
 //#define DISABLE_M503    // Saves ~2700 bytes of PROGMEM. Disable for release!
 #define EEPROM_CHITCHAT   // Give feedback on EEPROM commands. Disable to save PROGMEM.
 
@@ -1542,7 +1542,7 @@
  * you must uncomment the following option or it won't work.
  *
  */
-//#define SDSUPPORT
+#define SDSUPPORT //Irek
 
 /**
  * SD CARD: SPI SPEED
@@ -1599,7 +1599,7 @@
 //
 //  Set this option if CLOCKWISE causes values to DECREASE
 //
-//#define REVERSE_ENCODER_DIRECTION
+#define REVERSE_ENCODER_DIRECTION //Irek
 
 //
 // This option reverses the encoder direction for navigating LCD menus.
@@ -1661,7 +1661,7 @@
 // PanelOne from T3P3 (via RAMPS 1.4 AUX2/AUX3)
 // http://reprap.org/wiki/PanelOne
 //
-#define PANEL_ONE
+//#define PANEL_ONE //Irek: commented
 
 //
 // GADGETS3D G3D LCD/SD Controller
